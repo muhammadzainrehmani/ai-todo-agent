@@ -99,7 +99,7 @@ export default function Dashboard() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
             <LayoutDashboard size={18} />
           </div>
-          <span className="text-lg font-semibold tracking-tight">AI Task Manager</span>
+          <span className="text-lg font-semibold tracking-tight">GeminiTask</span>
         </div>
         <div className="flex items-center gap-4">
           <span className="hidden text-sm font-medium text-gray-500 md:inline">{user?.email}</span>

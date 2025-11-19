@@ -108,7 +108,7 @@ export default function ChatInterface({ messages, sendMessage, isConnecting, isP
                 </button>
             </form>
             <div className="text-center mt-2 text-[10px] text-gray-400 font-medium">
-                AI Task Manager can make mistakes. Please check important info.
+                GeminiTask can make mistakes. Please check important info.
             </div>
         </div>
       </div>
