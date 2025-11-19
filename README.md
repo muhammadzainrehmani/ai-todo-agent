@@ -27,7 +27,7 @@ Make sure the following are installed:
 
 The frontend communicates with the backend through WebSockets. The backend handles AI orchestration, tool routing, and data persistence in PostgreSQL.
 
-![Architecture Diagram](architecture_diagram.jpeg)
+![Architecture Diagram](architecture_diagram.png)
 
 ---
 
