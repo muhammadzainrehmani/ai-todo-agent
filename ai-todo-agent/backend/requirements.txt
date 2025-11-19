@@ -1,0 +1,36 @@
+fastapi
+uvicorn[standard]
+
+# Database & ORM
+sqlalchemy
+psycopg2-binary
+alembic>=1.13.1 
+
+# Authentication & Security
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt==4.0.1
+email-validator
+python-multipart
+
+# AI & LangChain
+langchain
+langgraph
+langchain-google-genai
+langchain-openai
+
+# RAG & Document
+pypdf
+chromadb
+langchain-community
+sentence-transformers
+langchain-text-splitters
+
+# Utilities
+python-dotenv
+pydantic
+requests
+
+# Testing
+pytest
+httpx
