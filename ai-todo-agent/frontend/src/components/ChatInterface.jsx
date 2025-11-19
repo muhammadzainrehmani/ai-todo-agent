@@ -27,7 +27,7 @@ export default function ChatInterface({ messages, sendMessage, isConnecting, isP
             <div className="w-16 h-16 bg-gradient-to-tr from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg">
                 <Sparkles size={32} />
             </div>
-            <h3 className="text-xl font-semibold text-gray-800">Welcome, Human</h3>
+            <h3 className="text-xl font-semibold text-gray-800">Welcome</h3>
             <p className="text-sm text-gray-500 mt-2 max-w-xs">
                 I can help you manage tasks. Try saying "Plan a project" or upload a PDF.
             </p>
