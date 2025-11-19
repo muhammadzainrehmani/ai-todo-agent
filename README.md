@@ -28,7 +28,7 @@ Before running the project, ensure you have the following installed:
 
 The architecture consists of a React frontend communicating via WebSockets to a FastAPI backend, which orchestrates AI logic using LangGraph and stores data in PostgreSQL.
 
-![Architecture Diagram](architecture_diagram.png)
+![Architecture Diagram](architecture_diagram.jpeg)
 
 *(Note: Please ensure the `architecture_diagram.png` image is saved in your project root folder).*
 
