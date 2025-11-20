@@ -23,14 +23,6 @@ Make sure the following are installed:
 
 ---
 
-## 🏗️ Architecture Diagram
-
-The frontend communicates with the backend through WebSockets. The backend handles AI orchestration, tool routing, and data persistence in PostgreSQL.
-
-![Architecture Diagram](architecture_diagram.png)
-
----
-
 ## 🚀 Setup & Installation
 
 ### 1. Database Setup
@@ -136,3 +128,11 @@ Once logged in, try these in the chat:
 cd backend
 pytest
 ```
+
+---
+
+## 🏗️ Architecture Diagram
+
+The frontend communicates with the backend through WebSockets. The backend handles AI orchestration, tool routing, and data persistence in PostgreSQL.
+
+![Architecture Diagram](architecture_diagram.png)
