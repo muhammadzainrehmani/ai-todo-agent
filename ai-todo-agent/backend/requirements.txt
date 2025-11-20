@@ -34,3 +34,6 @@ requests
 # Testing
 pytest
 httpx
+
+# Scrolling 
+tailwind-scrollbar@3.1.0

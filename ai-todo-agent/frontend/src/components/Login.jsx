@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Sparkles } from "lucide-react";
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);
@@ -18,41 +19,56 @@ export default function Login() {
         await login(email, password);
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "An unexpected error occurred.");
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
-          {isRegister ? "Create Account" : "Welcome Back"}
-        </h2>
+    // Dark background gradient for the whole page
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950 p-4 font-sans text-gray-100">
+      <div className="w-full max-w-md rounded-3xl border border-gray-700 bg-white/5 backdrop-blur-xl p-8 shadow-2xl shadow-black/30 animate-in fade-in duration-500">
+        
+        {/* Logo and Title */}
+        <div className="flex flex-col items-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white mb-4 shadow-xl shadow-blue-500/30">
+                <Sparkles size={32} />
+            </div>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-transparent mb-2">
+                GeminiTask
+            </h2>
+            <p className="text-gray-400 text-sm">{isRegister ? "Create your account" : "Sign in to your account"}</p>
+        </div>
         
         {error && (
-          <div className="mb-4 rounded bg-red-100 p-2 text-center text-sm text-red-600">
+          <div className="mb-4 rounded-lg bg-red-800/50 p-3 text-center text-sm text-red-100 border border-red-700">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Email</label>
             <input
+              id="email"
+              name="email"
+              autoComplete="email" 
               type="email"
               required
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-lg border border-gray-700 bg-gray-800/70 p-3 text-gray-100 placeholder:text-gray-500 focus:border-indigo-600 focus:ring-indigo-600 focus:outline-none transition-all"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">Password</label>
             <input
+              id="password"
+              name="password"
+              autoComplete={isRegister ? "new-password" : "current-password"}
               type="password"
               required
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-lg border border-gray-700 bg-gray-800/70 p-3 text-gray-100 placeholder:text-gray-500 focus:border-indigo-600 focus:ring-indigo-600 focus:outline-none transition-all"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -60,16 +76,16 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full rounded-lg bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-xl shadow-indigo-500/30 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all active:scale-98"
           >
             {isRegister ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <button
             onClick={() => setIsRegister(!isRegister)}
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-indigo-400 hover:underline hover:text-indigo-300 transition-colors"
           >
             {isRegister
               ? "Already have an account? Sign In"

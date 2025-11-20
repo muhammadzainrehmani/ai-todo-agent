@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import TodoList from "./TodoList";
 import ChatInterface from "./ChatInterface";
-import { LogOut, LayoutDashboard, Upload, ListTodo, MessageSquare } from "lucide-react";
+import { LogOut, ListTodo, MessageSquare, Sparkles } from "lucide-react";
 
 export default function Dashboard() {
   const { token, logout, user } = useAuth();
@@ -10,8 +10,6 @@ export default function Dashboard() {
   const [chatHistory, setChatHistory] = useState([]);
   const [isAIProcessing, setIsAIProcessing] = useState(false);
   const [uploading, setUploading] = useState(false); 
-  
-  // NEW: Mobile Tab State ("chat" or "tasks")
   const [activeTab, setActiveTab] = useState("chat");
 
   const [socket, setSocket] = useState(null);
@@ -76,7 +74,7 @@ export default function Dashboard() {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setUploading(true); // LOCK INPUT
+    setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
     try {
@@ -85,83 +83,82 @@ export default function Dashboard() {
     } catch (error) {
         alert("Upload failed");
     } finally {
-        setUploading(false); // UNLOCK INPUT
+        setUploading(false);
         if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   return (
-    <div className="flex h-screen flex-col bg-white font-sans text-gray-900">
+    // DARK THEME BACKGROUND: Soft Gradient from very dark gray to dark indigo
+    <div className="flex h-[100dvh] flex-col bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950 font-sans text-gray-100 overflow-hidden">
       
-      {/* Professional Navbar */}
-      <nav className="flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 md:px-8">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
-            <LayoutDashboard size={18} />
+      {/* Navbar: Dark Glass Effect */}
+      <nav className="flex h-16 shrink-0 items-center justify-between border-b border-gray-800 bg-gray-900/80 backdrop-blur-md px-4 md:px-8 z-30 shadow-lg shadow-black/20">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-xl shadow-blue-500/30 animate-in fade-in zoom-in duration-500">
+            <Sparkles size={22} />
           </div>
-          <span className="text-lg font-semibold tracking-tight">GeminiTask</span>
+          <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-transparent">
+            GeminiTask
+          </span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="hidden text-sm font-medium text-gray-500 md:inline">{user?.email}</span>
-          <button onClick={logout} className="text-gray-500 hover:text-red-600 transition-colors">
+          <span className="hidden text-sm font-medium text-gray-400 md:inline">{user?.email}</span>
+          <button onClick={logout} className="text-gray-400 hover:text-red-400 transition-colors p-2 hover:bg-gray-800 rounded-full">
             <LogOut size={20} />
           </button>
         </div>
       </nav>
 
       {/* Main Content Container */}
-      <div className="relative flex flex-1 overflow-hidden">
+      <div className="relative flex flex-1 overflow-hidden p-0 md:p-6 lg:p-8 gap-6">
         
-        {/* MOBILE TABS (Visible only on small screens) */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex h-12 border-b border-gray-200 bg-gray-50 md:hidden">
+        {/* Mobile Tabs: Dark Glass Effect */}
+        <div className="absolute top-0 left-0 right-0 z-20 flex h-16 bg-gray-900/80 backdrop-blur-md border-b border-gray-800 md:hidden px-4 items-center gap-3 shadow-lg shadow-black/20">
             <button 
-                onClick={() => setActiveTab("chat")}
-                className={`flex-1 flex items-center justify-center gap-2 text-sm font-medium transition-colors ${activeTab === "chat" ? "text-blue-600 bg-white border-b-2 border-blue-600" : "text-gray-500"}`}
+                onClick={() => setActiveTab("chat")} 
+                className={`flex-1 flex items-center justify-center gap-2 text-base font-semibold py-2.5 rounded-full transition-all ${activeTab === "chat" ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30" : "text-gray-400 hover:bg-gray-800"}`}
             >
-                <MessageSquare size={16} /> Chat
+                <MessageSquare size={20} /> Chat
             </button>
             <button 
-                onClick={() => setActiveTab("tasks")}
-                className={`flex-1 flex items-center justify-center gap-2 text-sm font-medium transition-colors ${activeTab === "tasks" ? "text-blue-600 bg-white border-b-2 border-blue-600" : "text-gray-500"}`}
+                onClick={() => setActiveTab("tasks")} 
+                className={`flex-1 flex items-center justify-center gap-2 text-base font-semibold py-2.5 rounded-full transition-all ${activeTab === "tasks" ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30" : "text-gray-400 hover:bg-gray-800"}`}
             >
-                <ListTodo size={16} /> Tasks ({todos.length})
+                <ListTodo size={20} /> Tasks ({todos.length})
             </button>
         </div>
 
-        <main className="flex w-full h-full pt-12 md:pt-0">
+        <main className="flex w-full h-full pt-16 md:pt-0 gap-6 max-w-7xl mx-auto animate-in fade-in duration-500">
           
-          {/* LEFT: Chat Area */}
-          <div className={`w-full md:w-1/2 lg:w-[45%] h-full flex flex-col border-r border-gray-200 bg-white transition-all ${activeTab === "chat" ? "flex" : "hidden md:flex"}`}>
-            <div className="flex-1 overflow-hidden relative">
-                <ChatInterface 
-                    messages={chatHistory} 
-                    sendMessage={handleUserMessage}
-                    isConnecting={!isConnected}
-                    isProcessing={isAIProcessing}
-                    isUploading={uploading} // Pass uploading state
-                />
-                
-                {/* Upload Button (Floating) */}
-                <div className="absolute bottom-20 left-4 md:bottom-24 md:left-6 z-20">
-                    <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept=".pdf,.txt"/>
-                    <button 
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={uploading || isAIProcessing}
-                        className="flex items-center gap-2 rounded-full bg-gray-100/90 backdrop-blur px-4 py-2 text-xs font-medium text-gray-600 hover:bg-gray-200 shadow-sm border border-gray-200 transition-all disabled:opacity-50"
-                    >
-                        {uploading ? <span className="animate-pulse">Uploading...</span> : <><Upload size={14} /> Upload PDF</>}
-                    </button>
-                </div>
-            </div>
+          {/* LEFT: Chat Area (Dark Glass Panel) */}
+          <div className={`w-full md:w-1/2 lg:w-[45%] h-full flex flex-col md:rounded-3xl md:border border-gray-700 md:shadow-2xl md:shadow-black/30 bg-white/5 backdrop-blur-xl overflow-hidden transition-all duration-300 ${activeTab === "chat" ? "flex" : "hidden md:flex"}`}>
+            <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept=".pdf,.txt"/>
+            <ChatInterface 
+                messages={chatHistory} 
+                sendMessage={handleUserMessage}
+                isConnecting={!isConnected}
+                isProcessing={isAIProcessing}
+                isUploading={uploading}
+                onUploadClick={() => fileInputRef.current?.click()}
+            />
           </div>
 
-          {/* RIGHT: Tasks Area */}
-          <div className={`w-full md:w-1/2 lg:w-[55%] h-full flex flex-col bg-gray-50/50 transition-all ${activeTab === "tasks" ? "flex" : "hidden md:flex"}`}>
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white/50 backdrop-blur shrink-0">
-                <h2 className="font-semibold text-gray-800">My Tasks</h2>
-                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full">{todos.length}</span>
+          {/* RIGHT: Tasks Area (Dark Glass Panel) */}
+          <div className={`w-full md:w-1/2 lg:w-[55%] h-full flex flex-col md:rounded-3xl md:border border-gray-700 md:shadow-2xl md:shadow-black/30 bg-white/5 backdrop-blur-xl overflow-hidden transition-all duration-300 ${activeTab === "tasks" ? "flex" : "hidden md:flex"}`}>
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-800 bg-gray-900/50 shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-orange-600/20 text-orange-400 rounded-lg shadow-lg shadow-orange-500/10">
+                        <ListTodo size={22} />
+                    </div>
+                    <h2 className="font-bold text-gray-200 text-xl">My Tasks</h2>
+                </div>
+                <span className="bg-gray-800 text-gray-100 text-sm font-bold px-3 py-1.5 rounded-full shadow-md shadow-black/20">
+                    {todos.length} Tasks
+                </span>
             </div>
-            <div className="flex-1 overflow-y-auto p-4 md:p-6">
+            {/* Added scrollbar-thumb-gray-700 to scrollbar */}
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
                 <TodoList todos={todos} />
             </div>
           </div>
